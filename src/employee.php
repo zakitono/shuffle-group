@@ -42,8 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <h1>
-        <a href="index.php">社員の登録</a>
+        <a href="index.php">シャッフルグループ</a>
     </h1>
+
+    <h2>社員の登録</h2>
     <?php if (count($errors)) : ?>
         <ul>
             <?php foreach ($errors as $error) : ?>
