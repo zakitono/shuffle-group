@@ -10,7 +10,7 @@
 
 <body>
     <h1>
-        <a href="index.php">シャッフルグループ</a>
+        <a href="/">シャッフルグループ</a>
     </h1>
 
     <h2>社員の登録</h2>
@@ -22,7 +22,7 @@
 
         </ul>
     <?php endif; ?>
-    <form action="employee.php" method="post">
+    <form action="employee/create" method="post">
         <div>
             <label for="name">社員名</label>
             <input type="text" name="name">

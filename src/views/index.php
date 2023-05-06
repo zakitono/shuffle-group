@@ -10,11 +10,11 @@
 
 <body>
     <h1>
-        <a href="index.php">シャッフルグループ</a>
+        <a href="/">シャッフルグループ</a>
     </h1>
-    <a href="employee.php">社員を登録する</a>
+    <a href="employee">社員を登録する</a>
 
-    <form action="index.php" method="post">
+    <form action="shuffle" method="post">
         <button type="submit">シャッフルする</button>
     </form>
 
