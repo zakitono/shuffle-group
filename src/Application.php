@@ -1,9 +1,5 @@
 <!-- ここで、アプリ全体の管理 -->
 <?php
-require_once __DIR__ . '/core/Router.php';
-require_once __DIR__ . '/core/HttpNotFoundEx.php';
-require_once __DIR__ . '/controller/ShuffleController.php';
-require_once __DIR__ . '/controller/EmployeeController.php';
 
 class Application
 {
