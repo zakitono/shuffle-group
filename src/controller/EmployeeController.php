@@ -26,6 +26,11 @@ class EmployeeController extends Controller
 
     public function create()
     {
+
+        if (!$this->request->isPost()) {
+            throw new HttpNotFoundEx();
+        }
+
         $errors = [];
         #データベースに接続する
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
