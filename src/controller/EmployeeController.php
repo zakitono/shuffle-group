@@ -17,7 +17,11 @@ class EmployeeController extends Controller
 
         $mysqli->close();
 
-        include __DIR__ . '/../views/employee.php';
+        return $this->render([
+            'title' => '社員の登録',
+            'employees' => $employees,
+            'errors' => [],
+        ]);
     }
 
     public function create()
@@ -46,11 +50,15 @@ class EmployeeController extends Controller
             $stmt->execute();
             $stmt->close();
             #リダイレクト
-            header('Location: /employee');
+            // header('Location: /employee');
         }
 
         $mysqli->close();
 
-        include __DIR__ . '/../views/employee.php';
+        return $this->render([
+            'title' => '社員の登録',
+            'employees' => $employees,
+            'errors' => $errors,
+        ], 'index');
     }
 }

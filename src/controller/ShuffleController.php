@@ -4,14 +4,17 @@ class ShuffleController extends Controller
 {
     public function index()
     {
-        $groups = [];
-
         $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
         if ($mysqli->connect_error) {
             throw new RuntimeException('mysqli接続エラー:' . $mysqli->connect_error);
         }
 
-        include  __DIR__ . '/../views/index.php';
+        //レンダリング
+        //Controller.phpのrenderメソッドで処理する
+        return $this->render([
+            'groups' => [],
+        ]);
+        // include  __DIR__ . '/../views/index.php';
     }
 
     public function create()
@@ -35,6 +38,8 @@ class ShuffleController extends Controller
             array_push($groups[0], $extra);
         }
 
-        include  __DIR__ . '/../views/index.php';
+        return $this->render([
+            'groups' => $groups,
+        ], 'index');
     }
 }
