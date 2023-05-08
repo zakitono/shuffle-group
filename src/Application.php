@@ -4,12 +4,14 @@
 class Application
 {
     protected $router;
+    public $request;
     protected $response;
 
     public function __construct()
     #routerに['controller' => 'shuffle', 'action' => 'index']を登録
     {
         $this->router = new Router($this->registerRoutes());
+        $this->request = new Request();
         $this->response = new Response();
     }
 
@@ -18,7 +20,7 @@ class Application
 
         try {
             #getPathInfoで今のパスの情報を取得して、resolve()で配列を返す
-            $params = $this->router->resolve($this->getPathInfo());
+            $params = $this->router->resolve($this->request->getPathInfo());
             if (!$params) {
                 throw new HttpNotFoundEx();
             }
@@ -41,7 +43,7 @@ class Application
             throw new HttpNotFoundEx();
         }
         #ShuffleControllerのインスタンス化
-        $controller = new $controllerClass();
+        $controller = new $controllerClass($this);
         $content = $controller->run($action);
         $this->response->setContent($content);
     }
@@ -55,10 +57,6 @@ class Application
             '/employee' => ['controller' => 'employee', 'action' => 'index'],
             '/employee/create' => ['controller' => 'employee', 'action' => 'create'],
         ];
-    }
-    private function getPathInfo()
-    {
-        return $_SERVER['REQUEST_URI'];
     }
 
     private function render404Page()
