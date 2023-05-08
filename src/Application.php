@@ -3,11 +3,14 @@
 
 class Application
 {
-    private $router;
+    protected $router;
+    protected $response;
+
     public function __construct()
     #routerに['controller' => 'shuffle', 'action' => 'index']を登録
     {
         $this->router = new Router($this->registerRoutes());
+        $this->response = new Response();
     }
 
     public function run()
@@ -24,8 +27,11 @@ class Application
             $action = $params['action'];
             $this->runAction($controller, $action);
         } catch (HttpNotFoundEx $ex) {
+            //ページが見つからなかった時の処理
             $this->render404Page();
         }
+
+        $this->response->send();
     }
 
     private function runAction($controllerName, $action)
@@ -36,7 +42,8 @@ class Application
         }
         #ShuffleControllerのインスタンス化
         $controller = new $controllerClass();
-        $controller->run($action);
+        $content = $controller->run($action);
+        $this->response->setContent($content);
     }
 
     #トップページ '/' のcontroller、actionを配列にして設定
@@ -56,8 +63,9 @@ class Application
 
     private function render404Page()
     {
-        header('HTTP/1.1 404 Page Not Found');
-        $content = <<<EOF
+        $this->response->setStatusCode(404, 'Not Found');
+        $this->response->setContent(
+            <<<EOF
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -72,8 +80,7 @@ class Application
     </h1>
 </body>
 </html>
-
-EOF;
-        echo $content;
+EOF
+        );
     }
 }
