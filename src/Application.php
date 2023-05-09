@@ -4,8 +4,9 @@
 class Application
 {
     protected $router;
-    public $request;
+    protected $request;
     protected $response;
+    protected $databaseManager;
 
     public function __construct()
     #routerに['controller' => 'shuffle', 'action' => 'index']を登録
@@ -13,6 +14,16 @@ class Application
         $this->router = new Router($this->registerRoutes());
         $this->request = new Request();
         $this->response = new Response();
+        $this->databaseManager = new DatabaseManager();
+        //DatabaseManagerクラスのconnectメソッドで処理
+        $this->databaseManager->connect(
+            [
+                'hostname' => 'db',
+                'username' => 'test_user',
+                'password' => 'pass',
+                'database' => 'test_database'
+            ]
+        );
     }
 
     public function run()
@@ -34,6 +45,16 @@ class Application
         }
 
         $this->response->send();
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    public function getDatabaseManager()
+    {
+        return $this->databaseManager;
     }
 
     private function runAction($controllerName, $action)
