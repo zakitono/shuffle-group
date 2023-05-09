@@ -4,18 +4,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $errors = [];
-
-        #データベースに接続する
-        $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
-        if ($mysqli->connect_error) {
-            throw new RuntimeException('mysqli接続エラー:' . $mysqli->connect_error);
-        }
-
-        $result = $mysqli->query('SELECT name FROM employees');
-        $employees = $result->fetch_all(MYSQLI_ASSOC);
-
-        $mysqli->close();
+        $employees = $this->databaseManager->get('Employee')->fetchAllNames();
 
         return $this->render([
             'title' => '社員の登録',
@@ -32,14 +21,9 @@ class EmployeeController extends Controller
         }
 
         $errors = [];
-        #データベースに接続する
-        $mysqli = new mysqli('db', 'test_user', 'pass', 'test_database');
-        if ($mysqli->connect_error) {
-            throw new RuntimeException('mysqli接続エラー:' . $mysqli->connect_error);
-        }
 
-        $result = $mysqli->query('SELECT name FROM employees');
-        $employees = $result->fetch_all(MYSQLI_ASSOC);
+        $employee = $this->databaseManager->get('Employee');
+        $employees = $employee->fetchAllNames();
 
         #バリデーション
         if (!strlen($_POST['name'])) {
@@ -50,15 +34,8 @@ class EmployeeController extends Controller
             }
         }
         if (!count($errors)) {
-            $stmt = $mysqli->prepare('INSERT INTO employees (name) VALUES(?)');
-            $stmt->bind_param('s', $_POST['name']);
-            $stmt->execute();
-            $stmt->close();
-            #リダイレクト
-            // header('Location: /employee');
+            $employee->insert($_POST['name']);
         }
-
-        $mysqli->close();
 
         return $this->render([
             'title' => '社員の登録',
