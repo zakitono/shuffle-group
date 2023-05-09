@@ -4,10 +4,12 @@ class Controller
 {
     protected $actionName;
     protected $request;
+    protected $databaseManager;
 
     public function __construct($application)
     {
-        $this->request = $application->request;
+        $this->request = $application->getRequest();
+        $this->databaseManager = $application->getDatabaseManager();
     }
 
     public function run($action)
