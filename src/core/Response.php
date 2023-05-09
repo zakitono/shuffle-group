@@ -8,7 +8,7 @@ class Response
 
     public function send()
     {
-        // header('HTTP/1.1' 404 Not Found') 
+        // header('HTTP/1.1' 404 Not Found')
         header('HTTP/1.1' . $this->statusCode . ' ' . $this->statusText);
         echo $this->content;
     }
@@ -18,6 +18,7 @@ class Response
         $this->content = $content;
     }
 
+    //sendメソッドで使用
     public function setStatusCode($statusCode, $statusText)
     {
         $this->statusCode = $statusCode;

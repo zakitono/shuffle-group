@@ -1,10 +1,11 @@
 <?php
 
+//Controllerクラスを継承
 class ShuffleController extends Controller
 {
     public function index()
     {
-        //レンダリング
+        //view配下のHTML情報を出力している
         //Controller.phpのrenderメソッドで処理する
         return $this->render([
             'groups' => [],

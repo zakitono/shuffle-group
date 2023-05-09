@@ -10,6 +10,7 @@ class Request
         return false;
     }
 
+    //URLの取得
     public function getPathInfo()
     {
         return $_SERVER['REQUEST_URI'];
