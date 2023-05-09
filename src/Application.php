@@ -28,7 +28,6 @@ class Application
 
     public function run()
     {
-
         try {
             #getPathInfoで今のパスの情報を取得して、resolve()で配列を返す
             $params = $this->router->resolve($this->request->getPathInfo());
@@ -36,7 +35,10 @@ class Application
                 throw new HttpNotFoundEx();
             }
 
+            //ルーティングに存在するパスが一致していれば、コントローラー、アクションの値を変数へ格納
+            //コントローラー名
             $controller = $params['controller'];
+            //アクション名
             $action = $params['action'];
             $this->runAction($controller, $action);
         } catch (HttpNotFoundEx $ex) {
@@ -44,6 +46,7 @@ class Application
             $this->render404Page();
         }
 
+        //runActionのデータをsendメソッドでcontentを表示させる
         $this->response->send();
     }
 
@@ -59,12 +62,16 @@ class Application
 
     private function runAction($controllerName, $action)
     {
+        //EmployeeController 又は
+        //ShuffleController を生成して$controllerClassへ格納
         $controllerClass = ucfirst($controllerName) . 'Controller';
         if (!class_exists($controllerClass)) {
             throw new HttpNotFoundEx();
         }
+        #EmployeeController 又は
         #ShuffleControllerのインスタンス化
         $controller = new $controllerClass($this);
+        //ShuffleController→runアクション(引数がindex,又はcreate)
         $content = $controller->run($action);
         $this->response->setContent($content);
     }
@@ -77,9 +84,11 @@ class Application
             '/shuffle' => ['controller' => 'shuffle', 'action' => 'create'],
             '/employee' => ['controller' => 'employee', 'action' => 'index'],
             '/employee/create' => ['controller' => 'employee', 'action' => 'create'],
+            '/employee/employee/create' => ['controller' => 'employee', 'action' => 'validationCreate'],
         ];
     }
 
+    //404エラー画面の表示
     private function render404Page()
     {
         $this->response->setStatusCode(404, 'Not Found');
