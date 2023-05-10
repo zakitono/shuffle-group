@@ -83,10 +83,8 @@ class Application
             '/' => ['controller' => 'shuffle', 'action' => 'index'],
             '/shuffle' => ['controller' => 'shuffle', 'action' => 'create'],
             '/employee' => ['controller' => 'employee', 'action' => 'index'],
-            '/create' => ['controller' => 'employee', 'action' => 'create'],
-
-
-            // '/employee/employee/create' => ['controller' => 'employee', 'action' => 'validationCreate'],
+            '/employee/create' => ['controller' => 'employee', 'action' => 'create'],
+            '/employee/create/list' => ['controller' => 'employee', 'action' => 'list'],
         ];
     }
 
