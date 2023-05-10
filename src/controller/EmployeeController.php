@@ -36,7 +36,7 @@ class EmployeeController extends Controller
         }
         if (!count($errors)) {
             $employee->insert($_POST['name']);
-            $register = "登録が完了しました。1度リロードしてください。";
+            $register = "登録が完了しました。ボタンを押してください。";
         }
 
         return $this->render([
@@ -45,5 +45,16 @@ class EmployeeController extends Controller
             'errors' => $errors,
             'register' => $register,
         ], 'create');
+    }
+
+    public function list()
+    {
+        $employees = $this->databaseManager->get('Employee')->fetchAllNames();
+
+        return $this->render([
+            'title' => '社員の登録',
+            'employees' => $employees,
+            'errors' => [],
+        ]);
     }
 }
