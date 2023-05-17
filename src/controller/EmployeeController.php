@@ -15,7 +15,7 @@ class EmployeeController extends Controller
 
     public function create()
     {
-
+        //Requestクラスで、POSTか,それ意外か判断
         if (!$this->request->isPost()) {
             throw new HttpNotFoundEx();
         }

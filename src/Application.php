@@ -76,7 +76,7 @@ class Application
         $this->response->setContent($content);
     }
 
-    #トップページ '/' のcontroller、actionを配列にして設定
+    #トップページ '/' のcontroller、actionを配列にして設定して、Routerへ渡す
     private function registerRoutes()
     {
         return [
